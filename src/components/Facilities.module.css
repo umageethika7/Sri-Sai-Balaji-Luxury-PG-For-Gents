@@ -1,0 +1,192 @@
+.section {
+  overflow: hidden;
+  padding-block: 5rem;
+  background: #ffffff;
+}
+
+/* minmax(0, 1fr) stops the max-content marquee track from stretching the column past the screen. */
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* Full-bleed on small screens so cards run edge to edge; contained in its column on desktop. */
+.marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-inline: -1.25rem;
+}
+
+/* Soft fade at both edges so cards glide in and out instead of being cut off. */
+.row {
+  overflow: hidden;
+  padding-block: 0.5rem;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.row:hover .track {
+  animation-play-state: paused;
+}
+
+.toLeft {
+  animation-name: marquee-left;
+  animation-duration: 55s;
+}
+
+.toRight {
+  animation-name: marquee-right;
+  animation-duration: 62s;
+}
+
+/* Trailing padding equals the gap, so each set is exactly half the track and -50% loops seamlessly. */
+.set {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 16.5rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--brand-100);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 4px 14px -6px rgba(21, 39, 96, 0.12);
+  transition:
+    transform 300ms var(--ease-standard),
+    border-color 300ms var(--ease-standard),
+    box-shadow 300ms var(--ease-standard);
+}
+
+.card:hover {
+  transform: translateY(-0.25rem);
+  border-color: var(--brand-300);
+  box-shadow: 0 12px 24px -10px rgba(21, 39, 96, 0.2);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.title {
+  font-size: 1rem;
+  line-height: 1.375rem;
+  font-weight: 700;
+  color: var(--brand-950);
+}
+
+.quote {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--stone-600);
+}
+
+.iconWrap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--brand-100);
+  border-radius: 0.875rem;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  transition: transform 300ms var(--ease-standard);
+}
+
+.card:hover .iconWrap {
+  transform: scale(1.08);
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-block: 70px;
+  }
+
+  .marquee {
+    margin-inline: -2rem;
+  }
+
+  .card {
+    width: 19rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 3rem;
+  }
+
+  .intro {
+    grid-column: span 4;
+  }
+
+  .marquee {
+    grid-column: span 8;
+    margin-inline: 0;
+  }
+}
+
+/* No auto-scrolling for reduced motion: show the cards still and let the row be scrolled by hand.
+   !important beats the global reduced-motion rule, which would otherwise make this loop flicker. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none !important;
+  }
+
+  .row {
+    overflow-x: auto;
+  }
+
+  .set[aria-hidden] {
+    display: none;
+  }
+}

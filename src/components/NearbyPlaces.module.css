@@ -1,0 +1,342 @@
+.section {
+  padding-block: 5rem;
+  background: #ffffff;
+}
+
+.reveal {
+  margin-top: 3.5rem;
+}
+
+.list {
+  overflow: hidden;
+  padding: 0.5rem;
+  border-radius: 1.5rem;
+  background: var(--brand-950);
+  box-shadow: 0 25px 50px -12px rgba(13, 24, 56, 0.35);
+}
+
+/* Mobile/tablet: number and name on one line; the panel opens underneath. */
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  /* On phones the open panel uses the full row width so the photo isn't squeezed. */
+  grid-template-areas:
+    'num head'
+    'panel panel';
+  align-items: start;
+  column-gap: 0.75rem;
+  padding: 1.125rem 1rem;
+  border-radius: 1rem;
+  transition: background-color 600ms var(--ease-standard);
+}
+
+.item + .item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  right: 1rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: opacity 600ms var(--ease-standard);
+}
+
+/* Hide the dividers touching the highlighted row so it reads as one block. */
+.item.active::before,
+.item.active + .item::before {
+  opacity: 0;
+}
+
+.item.active {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* The button covers the row; visible content sits above it with pointer-events off so clicks reach it. */
+.hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.hit:focus {
+  outline: none;
+}
+
+.hit:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--brand-300);
+}
+
+.number,
+.heading,
+.panel {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.number {
+  grid-area: num;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-top: 0.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 600ms var(--ease-standard);
+}
+
+.active .number {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: var(--brand-950);
+}
+
+.heading {
+  grid-area: head;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.name {
+  font-family: var(--font-display-stack);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.6);
+  transition: color 600ms var(--ease-standard);
+}
+
+.item:hover .name,
+.active .name {
+  color: #ffffff;
+}
+
+.category {
+  font-size: 0.8125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--brand-300);
+}
+
+/* Expands from zero height by animating the grid row from 0fr to 1fr. */
+.panel {
+  grid-area: panel;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 700ms var(--ease-out-expo);
+}
+
+.active .panel {
+  grid-template-rows: 1fr;
+}
+
+.panelClip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.panelInner {
+  display: grid;
+  gap: 1rem;
+  padding-top: 1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 300ms var(--ease-standard),
+    transform 300ms var(--ease-standard);
+}
+
+.active .panelInner {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 500ms var(--ease-standard) 150ms,
+    transform 700ms var(--ease-out-expo) 150ms;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  transform: scale(0.94);
+  transition: transform 700ms var(--ease-out-expo);
+  pointer-events: auto;
+}
+
+.active .media {
+  transform: none;
+}
+
+.photo {
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 1200ms var(--ease-out-expo);
+}
+
+.active .photo {
+  transform: none;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.description {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--brand-100);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: #ffffff;
+}
+
+.metaIcon {
+  flex-shrink: 0;
+  width: 1.0625rem;
+  height: 1.0625rem;
+  margin-top: 0.0625rem;
+  color: var(--brand-300);
+}
+
+.metaLabel {
+  color: var(--brand-300);
+}
+
+/* "Open in Maps" link in the details column (opens the place in Google Maps). */
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  color: #ffffff;
+  pointer-events: auto;
+  text-decoration: underline;
+  text-decoration-color: rgba(151, 176, 230, 0.5);
+  text-underline-offset: 3px;
+  transition:
+    color 200ms var(--ease-standard),
+    text-decoration-color 200ms var(--ease-standard);
+}
+
+.mapLink:hover {
+  color: var(--brand-300);
+  text-decoration-color: currentColor;
+}
+
+.mapLink:focus-visible {
+  outline: 2px solid var(--brand-300);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+.mapLinkIcon {
+  width: 0.9375rem;
+  height: 0.9375rem;
+}
+
+.progress {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 0;
+  z-index: 1;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--brand-300);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation-name: progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  pointer-events: none;
+}
+
+@keyframes progress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-block: 7rem;
+  }
+
+  .list {
+    padding: 0.75rem;
+  }
+
+  .item {
+    grid-template-areas:
+      'num head'
+      '. panel';
+    padding: 1.25rem 1.5rem;
+  }
+
+  .item + .item::before {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .progress {
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .panelInner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 1.5rem;
+  }
+}
+
+/* Desktop: name on the left, photo and description open to its right. */
+@media (min-width: 1024px) {
+  .item {
+    grid-template-columns: 3rem minmax(0, 0.85fr) minmax(0, 1.6fr);
+    grid-template-areas: 'num head panel';
+    column-gap: 1.5rem;
+    padding: 1.5rem 2rem;
+  }
+
+  .item + .item::before,
+  .progress {
+    left: 2rem;
+    right: 2rem;
+  }
+
+  .name {
+    font-size: 1.625rem;
+  }
+
+  .panelInner {
+    padding-top: 0;
+  }
+}

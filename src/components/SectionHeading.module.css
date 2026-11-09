@@ -1,0 +1,90 @@
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 42rem;
+}
+
+.center {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.left {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brand-700);
+}
+
+.rule {
+  width: 2.5rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--brand-600);
+}
+
+.title {
+  font-family: var(--font-display-stack);
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--brand-950);
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--stone-600);
+}
+
+.dark .eyebrow {
+  color: var(--brand-200);
+}
+
+.dark .rule {
+  background: var(--brand-300);
+}
+
+.dark .title {
+  color: #ffffff;
+}
+
+.dark .description {
+  color: var(--brand-100);
+}
+
+@media (min-width: 640px) {
+  .eyebrow {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+
+  .description {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 3rem;
+    line-height: 1;
+  }
+}

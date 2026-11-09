@@ -1,0 +1,413 @@
+.floating {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+  transition:
+    opacity 300ms var(--ease-standard),
+    visibility 300ms var(--ease-standard);
+  /* Fades in with the navbar on every load. `backwards` only applies the
+     hidden state during the delay, so the footer-hiding rule below keeps working afterwards. */
+  animation: floating-in 0.7s var(--ease-standard) var(--hero-chrome) backwards;
+}
+
+@keyframes floating-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    visibility: hidden;
+  }
+}
+
+/* Over the footer, which has its own WhatsApp and phone buttons. */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.call {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--brand-800);
+  box-shadow: 0 0 0 1px var(--brand-100), 0 10px 15px -3px rgba(13, 24, 56, 0.2), 0 4px 6px -4px rgba(13, 24, 56, 0.2);
+  transition: all 300ms var(--ease-standard);
+}
+
+.call:hover {
+  transform: translateY(-0.25rem);
+  background: var(--brand-50);
+}
+
+.callIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.whatsapp {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1px var(--brand-100), 0 10px 15px -3px #0d183833, 0 4px 6px -4px #0d183833;
+  transition: transform 300ms var(--ease-standard);
+}
+
+.whatsapp:hover {
+  transform: scale(1.1);
+}
+
+.ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #e3ecff;
+
+}
+
+.whatsappIcon {
+  position: relative;
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+@media (min-width: 640px) {
+  .floating {
+    right: 2rem;
+    bottom: 2rem;
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+/* ---------- Circular orbit swap ----------
+   Every 4s the two buttons make a half-turn clockwise around their shared centre (top -> right -> bottom ->
+   left), trading places, then hold before the next half-turn. --orbit-x is the sideways radius: a true
+   circle from 640px up, a slightly narrower oval on phones so the right-hand button stays on screen.
+   Keyframes are generated (16 eased points per half-turn) so the curve is smooth. Only transform animates. */
+.floating {
+  --orbit-x: 1rem;
+}
+
+.call,
+.whatsapp {
+  position: relative;
+  will-change: transform;
+}
+
+.call {
+  animation: orbit-phone 4s linear infinite;
+}
+
+.whatsapp {
+  z-index: 1;
+  animation: orbit-whatsapp 4s linear infinite;
+}
+
+@media (min-width: 640px) {
+  .floating {
+    --orbit-x: 1.875rem;
+  }
+}
+
+@keyframes orbit-phone {
+
+  0%,
+  30% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  31.25% {
+    transform: translate(calc(var(--orbit-x) * 0.0353), 0.001rem) scale(1.003);
+  }
+
+  32.5% {
+    transform: translate(calc(var(--orbit-x) * 0.1346), 0.017rem) scale(1.011);
+  }
+
+  33.75% {
+    transform: translate(calc(var(--orbit-x) * 0.2859), 0.078rem) scale(1.023);
+  }
+
+  35% {
+    transform: translate(calc(var(--orbit-x) * 0.4714), 0.221rem) scale(1.038);
+  }
+
+  36.25% {
+    transform: translate(calc(var(--orbit-x) * 0.6659), 0.476rem) scale(1.053);
+  }
+
+  37.5% {
+    transform: translate(calc(var(--orbit-x) * 0.8382), 0.853rem) scale(1.067);
+  }
+
+  38.75% {
+    transform: translate(calc(var(--orbit-x) * 0.9574), 1.333rem) scale(1.077);
+  }
+
+  40% {
+    transform: translate(calc(var(--orbit-x) * 1), 1.875rem) scale(1.08);
+  }
+
+  41.25% {
+    transform: translate(calc(var(--orbit-x) * 0.9574), 2.417rem) scale(1.077);
+  }
+
+  42.5% {
+    transform: translate(calc(var(--orbit-x) * 0.8382), 2.897rem) scale(1.067);
+  }
+
+  43.75% {
+    transform: translate(calc(var(--orbit-x) * 0.6659), 3.274rem) scale(1.053);
+  }
+
+  45% {
+    transform: translate(calc(var(--orbit-x) * 0.4714), 3.529rem) scale(1.038);
+  }
+
+  46.25% {
+    transform: translate(calc(var(--orbit-x) * 0.2859), 3.672rem) scale(1.023);
+  }
+
+  47.5% {
+    transform: translate(calc(var(--orbit-x) * 0.1346), 3.733rem) scale(1.011);
+  }
+
+  48.75% {
+    transform: translate(calc(var(--orbit-x) * 0.0353), 3.749rem) scale(1.003);
+  }
+
+  50%,
+  80% {
+    transform: translate(0, 3.75rem) scale(1);
+  }
+
+  81.25% {
+    transform: translate(calc(var(--orbit-x) * -0.0353), 3.749rem) scale(1.003);
+  }
+
+  82.5% {
+    transform: translate(calc(var(--orbit-x) * -0.1346), 3.733rem) scale(1.011);
+  }
+
+  83.75% {
+    transform: translate(calc(var(--orbit-x) * -0.2859), 3.672rem) scale(1.023);
+  }
+
+  85% {
+    transform: translate(calc(var(--orbit-x) * -0.4714), 3.529rem) scale(1.038);
+  }
+
+  86.25% {
+    transform: translate(calc(var(--orbit-x) * -0.6659), 3.274rem) scale(1.053);
+  }
+
+  87.5% {
+    transform: translate(calc(var(--orbit-x) * -0.8382), 2.897rem) scale(1.067);
+  }
+
+  88.75% {
+    transform: translate(calc(var(--orbit-x) * -0.9574), 2.417rem) scale(1.077);
+  }
+
+  90% {
+    transform: translate(calc(var(--orbit-x) * -1), 1.875rem) scale(1.08);
+  }
+
+  91.25% {
+    transform: translate(calc(var(--orbit-x) * -0.9574), 1.333rem) scale(1.077);
+  }
+
+  92.5% {
+    transform: translate(calc(var(--orbit-x) * -0.8382), 0.853rem) scale(1.067);
+  }
+
+  93.75% {
+    transform: translate(calc(var(--orbit-x) * -0.6659), 0.476rem) scale(1.053);
+  }
+
+  95% {
+    transform: translate(calc(var(--orbit-x) * -0.4714), 0.221rem) scale(1.038);
+  }
+
+  96.25% {
+    transform: translate(calc(var(--orbit-x) * -0.2859), 0.078rem) scale(1.023);
+  }
+
+  97.5% {
+    transform: translate(calc(var(--orbit-x) * -0.1346), 0.017rem) scale(1.011);
+  }
+
+  98.75% {
+    transform: translate(calc(var(--orbit-x) * -0.0353), 0.001rem) scale(1.003);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+}
+
+@keyframes orbit-whatsapp {
+
+  0%,
+  30% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  31.25% {
+    transform: translate(calc(var(--orbit-x) * -0.0353), -0.001rem) scale(1.003);
+  }
+
+  32.5% {
+    transform: translate(calc(var(--orbit-x) * -0.1346), -0.017rem) scale(1.011);
+  }
+
+  33.75% {
+    transform: translate(calc(var(--orbit-x) * -0.2859), -0.078rem) scale(1.023);
+  }
+
+  35% {
+    transform: translate(calc(var(--orbit-x) * -0.4714), -0.221rem) scale(1.038);
+  }
+
+  36.25% {
+    transform: translate(calc(var(--orbit-x) * -0.6659), -0.476rem) scale(1.053);
+  }
+
+  37.5% {
+    transform: translate(calc(var(--orbit-x) * -0.8382), -0.853rem) scale(1.067);
+  }
+
+  38.75% {
+    transform: translate(calc(var(--orbit-x) * -0.9574), -1.333rem) scale(1.077);
+  }
+
+  40% {
+    transform: translate(calc(var(--orbit-x) * -1), -1.875rem) scale(1.08);
+  }
+
+  41.25% {
+    transform: translate(calc(var(--orbit-x) * -0.9574), -2.417rem) scale(1.077);
+  }
+
+  42.5% {
+    transform: translate(calc(var(--orbit-x) * -0.8382), -2.897rem) scale(1.067);
+  }
+
+  43.75% {
+    transform: translate(calc(var(--orbit-x) * -0.6659), -3.274rem) scale(1.053);
+  }
+
+  45% {
+    transform: translate(calc(var(--orbit-x) * -0.4714), -3.529rem) scale(1.038);
+  }
+
+  46.25% {
+    transform: translate(calc(var(--orbit-x) * -0.2859), -3.672rem) scale(1.023);
+  }
+
+  47.5% {
+    transform: translate(calc(var(--orbit-x) * -0.1346), -3.733rem) scale(1.011);
+  }
+
+  48.75% {
+    transform: translate(calc(var(--orbit-x) * -0.0353), -3.749rem) scale(1.003);
+  }
+
+  50%,
+  80% {
+    transform: translate(0, -3.75rem) scale(1);
+  }
+
+  81.25% {
+    transform: translate(calc(var(--orbit-x) * 0.0353), -3.749rem) scale(1.003);
+  }
+
+  82.5% {
+    transform: translate(calc(var(--orbit-x) * 0.1346), -3.733rem) scale(1.011);
+  }
+
+  83.75% {
+    transform: translate(calc(var(--orbit-x) * 0.2859), -3.672rem) scale(1.023);
+  }
+
+  85% {
+    transform: translate(calc(var(--orbit-x) * 0.4714), -3.529rem) scale(1.038);
+  }
+
+  86.25% {
+    transform: translate(calc(var(--orbit-x) * 0.6659), -3.274rem) scale(1.053);
+  }
+
+  87.5% {
+    transform: translate(calc(var(--orbit-x) * 0.8382), -2.897rem) scale(1.067);
+  }
+
+  88.75% {
+    transform: translate(calc(var(--orbit-x) * 0.9574), -2.417rem) scale(1.077);
+  }
+
+  90% {
+    transform: translate(calc(var(--orbit-x) * 1), -1.875rem) scale(1.08);
+  }
+
+  91.25% {
+    transform: translate(calc(var(--orbit-x) * 0.9574), -1.333rem) scale(1.077);
+  }
+
+  92.5% {
+    transform: translate(calc(var(--orbit-x) * 0.8382), -0.853rem) scale(1.067);
+  }
+
+  93.75% {
+    transform: translate(calc(var(--orbit-x) * 0.6659), -0.476rem) scale(1.053);
+  }
+
+  95% {
+    transform: translate(calc(var(--orbit-x) * 0.4714), -0.221rem) scale(1.038);
+  }
+
+  96.25% {
+    transform: translate(calc(var(--orbit-x) * 0.2859), -0.078rem) scale(1.023);
+  }
+
+  97.5% {
+    transform: translate(calc(var(--orbit-x) * 0.1346), -0.017rem) scale(1.011);
+  }
+
+  98.75% {
+    transform: translate(calc(var(--orbit-x) * 0.0353), -0.001rem) scale(1.003);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+}
+
+/* The global reduced-motion rule would make this loop flicker; keep both buttons still instead. */
+@media (prefers-reduced-motion: reduce) {
+  .call,
+  .whatsapp {
+    animation: none !important;
+  }
+}

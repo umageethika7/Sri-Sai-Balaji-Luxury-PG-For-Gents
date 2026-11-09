@@ -1,0 +1,370 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  background: transparent;
+  transition: all 500ms var(--ease-standard);
+  /* Fades in just after the hero heading on every load (see --hero-chrome in globals.css). */
+  animation: header-in 0.7s var(--ease-standard) var(--hero-chrome) backwards;
+}
+
+/* Phones / tablets with the menu open: the navbar narrows to the menu panel's width (75%), so the bar and
+   the panel form one drawer on the left with the ✕ at its right edge; the blurred page fills the rest. */
+@media (max-width: 1023.98px) {
+  .header[data-menu-open='true'] {
+    right: 25%;
+  }
+}
+
+@keyframes header-in {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+    visibility: hidden;
+  }
+}
+
+/* Over the hero video: a soft shadow keeps the white text readable against bright frames. */
+.header:not(.solid) .brandName,
+.header:not(.solid) .link,
+.header:not(.solid) .phone {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.header.solid {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 30px -12px rgba(13, 24, 56, 0.25);
+  backdrop-filter: blur(24px);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+  transition:
+    background-color 500ms var(--ease-standard),
+    box-shadow 500ms var(--ease-standard);
+}
+
+.solid .logo {
+  background: var(--brand-700);
+  box-shadow: 0 4px 6px -1px rgba(31, 60, 134, 0.3), 0 2px 4px -2px rgba(31, 60, 134, 0.3);
+}
+
+.logoIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Two stacked lines, each only as wide as its text (so it can be measured and stretched on phones). */
+.brandName {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-family: var(--font-display-stack);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #ffffff;
+  transition: color 500ms var(--ease-standard);
+}
+
+/* While the phone menu is open both lines stretch to the panel's width (Navbar.tsx); this eases the
+   letter spacing in and out as it opens and closes. */
+.brandTitle,
+.tagline {
+  white-space: nowrap;
+  transition:
+    letter-spacing 450ms var(--ease-out-expo),
+    margin-right 450ms var(--ease-out-expo),
+    color 500ms var(--ease-standard);
+}
+
+.solid .brandName {
+  color: var(--brand-950);
+}
+
+.tagline {
+  display: block;
+  white-space: nowrap;
+  font-family: var(--font-display-stack);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand-200);
+}
+
+.solid .tagline {
+  color: var(--brand-600);
+}
+
+.links,
+.actions {
+  display: none;
+  align-items: center;
+}
+
+.links {
+  gap: 2.25rem;
+}
+
+.actions {
+  gap: 1.25rem;
+}
+
+.link {
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  transition: color 200ms var(--ease-standard);
+}
+
+.link:hover {
+  color: #ffffff;
+}
+
+.solid .link {
+  color: var(--stone-700);
+}
+
+.solid .link:hover {
+  color: var(--brand-700);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem;
+  width: 100%;
+  height: 2px;
+  border-radius: 9999px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms var(--ease-standard);
+}
+
+.link:hover .underline {
+  transform: scaleX(1);
+}
+
+/* The section currently on screen: dark blue text with its underline shown. */
+.solid .link.active {
+  color: #1f3c86;
+}
+
+.link.active .underline {
+  transform: scaleX(1);
+}
+
+.phone {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: #ffffff;
+  transition: color 200ms var(--ease-standard);
+}
+
+.phone:hover {
+  color: var(--brand-200);
+}
+
+.solid .phone {
+  color: var(--brand-800);
+}
+
+.solid .phone:hover {
+  color: var(--brand-600);
+}
+
+.book {
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  background: #ffffff;
+  color: var(--brand-900);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  transition: all 300ms var(--ease-standard);
+}
+
+.book:hover {
+  transform: translateY(-0.125rem);
+  background: var(--brand-100);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+.solid .book {
+  background: var(--brand-700);
+  color: #ffffff;
+}
+
+.solid .book:hover {
+  background: var(--brand-800);
+}
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  color: #ffffff;
+  transition: background-color 150ms var(--ease-standard);
+}
+
+.menuButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.solid .menuButton {
+  color: var(--brand-900);
+}
+
+.solid .menuButton:hover {
+  background: var(--brand-50);
+}
+
+.menuIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Behind the open mobile menu: blurs and dims the page (including the floating buttons), fading in and out. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  background: rgba(13, 24, 56, 0.28);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 350ms var(--ease-standard),
+    visibility 350ms var(--ease-standard);
+}
+
+.backdropOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Phone / tablet menu: a panel 75% of the screen wide, hanging below the navbar on the left under the
+   logo; the PG name above is stretched to the same width (Navbar.tsx). It is positioned on its own so the
+   navbar's background covers only the top bar, leaving the blurred page visible beside the panel
+   (tapping there closes the menu). */
+.mobileMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* The navbar itself narrows to 75% while the menu is open (below), so the panel matches its width. */
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  border-bottom-right-radius: 1.25rem;
+  background: #ffffff;
+  box-shadow: 12px 18px 40px -18px rgba(13, 24, 56, 0.45);
+  transition: max-height 450ms var(--ease-out-expo);
+}
+
+/* Never taller than the screen under the navbar; scrolls on short landscape phones. */
+.mobileMenu.open {
+  max-height: calc(100dvh - 4rem);
+  overflow-y: auto;
+  border-top: 1px solid var(--brand-100);
+}
+
+.mobileMenuInner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-block: 1rem 1.25rem;
+}
+
+.mobileLinkActive {
+  background: var(--brand-50);
+  color: #1f3c86;
+  font-weight: 600;
+}
+
+.mobileLink {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+  color: var(--stone-700);
+}
+
+.mobileLink:hover {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+.mobileCall {
+  margin-top: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background: var(--brand-700);
+  color: #ffffff;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+@media (min-width: 640px) {
+  .nav {
+    height: 5rem;
+  }
+
+  .brandName {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  .tagline {
+    font-size: 11px;
+  }
+
+  .mobileMenu.open {
+    max-height: calc(100dvh - 5rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .links,
+  .actions {
+    display: flex;
+  }
+
+  .menuButton,
+  .mobileMenu,
+  .backdrop {
+    display: none;
+  }
+}
